@@ -1,0 +1,8 @@
+{
+    "name": "streaming-bot",
+    "version": "1.0.0",
+    "description": "A bot for adding a tag when someone is streaming",
+    "main": "bot.js",
+    "author": "Lucy L",
+    "dependencies": {}
+}
