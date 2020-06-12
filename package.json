@@ -4,5 +4,8 @@
     "description": "A bot for adding a tag when someone is streaming",
     "main": "bot.js",
     "author": "Lucy L",
-    "dependencies": {}
+    "dependencies": {
+        "discord.js": "^12.2.0"
+    },
+    "devDependencies": {}
 }
