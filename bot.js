@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require("./config.json")
 
+const GALORANTROLE = "719978451787972720"
+const STREAMINGROLE = "721142930525519903"
+
 client.once('ready', () => {
 	console.log('Ready!');
 });
@@ -16,11 +19,29 @@ client.on('message', message => {
 });
 
 client.on('presenceUpdate', (oldPresence, newPresence) => {
-    if (!isUserStreaming(oldPresence) && isUserStreaming(newPresence)) {
-        onUserStartStreaming(newPresence.member)
-    } else if (isUserStreaming(oldPresence) && !isUserStreaming(newPresence)){
-        onUserStopStreaming(newPresence.member)
+
+    if (!newPresence.member || !newPresence.member._roles){
+        return
     }
+
+    if (!newPresence.member._roles.includes(GALORANTROLE)){
+        return;
+    }
+
+
+    console.log('Presence update for', newPresence.member.displayName)
+
+    if (isUserStreaming(newPresence) && !newPresence.member._roles.includes(STREAMINGROLE)){
+        onUserStartStreaming(newPresence.member)
+    } else if (!isUserStreaming(newPresence) && newPresence.member._roles.includes(STREAMINGROLE)){
+        onUserStopStreaming(newPresence.member);
+    }
+    
+    // if ((!oldPresence || !isUserStreaming(oldPresence)) && isUserStreaming(newPresence)) {
+    //     onUserStartStreaming(newPresence.member)
+    // } else if ((!oldPresence || isUserStreaming(oldPresence)) && !isUserStreaming(newPresence)){
+    //     onUserStopStreaming(newPresence.member)
+    // }
 });
 
 /**
@@ -43,8 +64,10 @@ function isUserStreaming(presence) {
 }
 
 function onUserStartStreaming(member){
-    member.roles.add("721142930525519903")
+    console.log('Giving role to ', member.displayName)
+    member.roles.add(STREAMINGROLE)
 }
 function onUserStopStreaming(member){
-    member.roles.remove("721142930525519903")
+    console.log('Taking role from ', member.displayName)
+    member.roles.remove(STREAMINGROLE)
 }
