@@ -23,7 +23,9 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
     if (!newPresence.member || !newPresence.member._roles){
         return
     }
-
+    if (newPresence.member.id == "628755933366845451"){
+        return
+    }
     if (!newPresence.member._roles.includes(GALORANTROLE)){
         return;
     }
